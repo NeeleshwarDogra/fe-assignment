@@ -1,0 +1,32 @@
+.logo{
+    width: 70px;
+    float: left;;
+    margin-right: 3vw;
+}
+
+.logocsm{
+    width: 50px;
+    float: left;
+    margin-right: 2vw;
+}
+
+.csm{
+    margin-top: 10vh;
+    margin-left: 2vw;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+
+h2{
+    font-weight:800;
+}
+
+h3{
+    font-weight: 900;
+}
+
+h4{
+    font-weight: 900;
+}
