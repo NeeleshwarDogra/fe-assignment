@@ -3,23 +3,28 @@ import logo from "./logo.jpg";
 import "./page.css";
 import Select from "react-select";
 import data from "./data.json";
-import icon from "./icon.jpg";
+import icon from "./icon2.png";
 import del from "./del.png";
 
+data.sort((a, b) => {
+	let na = a.name.toLowerCase(),
+		nb = b.name.toLowerCase();
+	na = na.trim();
+	nb = nb.trim();
+	if (na < nb) {
+		return -1;
+	}
+	if (na > nb) {
+		return 1;
+	}
+	return 0;
+});
+
 const Content = () => {
-	data.sort((a, b) => {
-		let na = a.name.toLowerCase(),
-			nb = b.name.toLowerCase();
-		na = na.trim();
-		nb = nb.trim();
-		if (na < nb) {
-			return -1;
-		}
-		if (na > nb) {
-			return 1;
-		}
-		return 0;
-	});
+	const [selectedOptions, setSelectedOptions] = useState([]);
+
+	let Values = [];
+	let indices = [];
 
 	const [options, setOptions] = useState(
 		data.map((item) => ({
@@ -45,21 +50,17 @@ const Content = () => {
 		}))
 	);
 
-	const [selectedOptions, setSelectedOptions] = useState([]);
-
-	let Values = [];
-	let indices = [];
-
 	const [csm, setcsm] = useState([]);
 
 	const customStyles = {
 		control: (provided) => ({
 			...provided,
 			width: "76.9vw",
+			minWidth: "20vw"
 		}),
 		input: (provided) => ({
 			...provided,
-			fontSize: "25px",
+			fontSize: "40px",
 		}),
 		multiValue: (provided) => ({
 			...provided,
@@ -69,25 +70,29 @@ const Content = () => {
 	};
 
 	const addcsm = () => {
-		let addedcsm = [];
-		for (let item of selectedOptions) {
-			indices.push(options.findIndex((x) => x.value === item.value));
-			addedcsm.push(
-				options[options.findIndex((x) => x.value === item.value)]
-			);
+		if (selectedOptions.length > 0) {
+			let addedcsm = [];
+			for (let item of selectedOptions) {
+				indices.push(options.findIndex((x) => x.value === item.value));
+				addedcsm.push(
+					options[options.findIndex((x) => x.value === item.value)]
+				);
+			}
+			const removezero = (value) => {
+				return value !== 0;
+			};
+			let newoptions = options.slice();
+			for (let item of indices) {
+				newoptions[item] = 0;
+			}
+			newoptions = newoptions.filter(removezero);
+			setcsm([...csm, ...addedcsm]);
+			setOptions(newoptions);
+			setSelectedOptions([]);
 		}
-		const removezero = (value) => {
-			return value !== 0;
-		};
-		let newoptions = options.slice();
-		for (let item of indices) {
-			newoptions[item] = 0;
+		else{
+			alert("Please select atleast one CSM.");
 		}
-		newoptions = newoptions.filter(removezero);
-		// let merged = [].concat.apply([], addedcsm);
-		setcsm([...csm, ...addedcsm]);
-		setOptions(newoptions);
-		setSelectedOptions(null);
 	};
 
 	const handleChange = (options) => {
@@ -176,17 +181,16 @@ const Content = () => {
 									></img>
 									<img
 										src={del}
-										style={{ float: "right", cursor:"pointer" }}
+										style={{
+											float: "right",
+											cursor: "pointer",
+										}}
 										onClick={delcsm}
 										alt="None"
 									></img>
 									<h4 id="index">{data[idx].name}</h4>
-									
-									<p>
-										{data[idx].des}
-										
-									</p>
-									
+
+									<p>{data[idx].des}</p>
 								</div>
 							</div>
 						);
@@ -197,7 +201,7 @@ const Content = () => {
 	};
 
 	return (
-		<div className="container" style={{ margin: 0 }}>
+		<div >
 			<Header />
 			<CSM />
 			<ShowCSM />

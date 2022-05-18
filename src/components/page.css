@@ -1,7 +1,7 @@
 .logo{
     width: 70px;
-    float: left;;
-    margin-right: 3vw;
+    float: left;
+    margin-right: 1vw;
 }
 
 .logocsm{
@@ -17,10 +17,11 @@
 
 body{
     font-family: 'Montserrat', sans-serif;
+    margin-left: 0.5px;
 }
 
 h2{
-    font-weight:800;
+    font-weight:900;
 }
 
 h3{
@@ -28,5 +29,9 @@ h3{
 }
 
 h4{
+    font-weight: 900;
+}
+
+p{
     font-weight: 900;
 }
